@@ -200,5 +200,6 @@ pre_commit_hooks = ["uv lock && git add uv.lock"]
 
 [[tool.bumpversion.files]]
 filename = "pyproject.toml"
-search   = 'version = "{current_version}"'
-replace  = 'version = "{new_version}"'
+search   = '(?<!current_)version\s*= "{current_version}"'
+regex    = true
+replace  = 'version       = "{new_version}"'
