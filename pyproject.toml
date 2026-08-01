@@ -1,6 +1,6 @@
 [project]
 name          = "frame2tensor"
-version       = "0.5.2"
+version       = "0.6.0"
 description   = "A simple Python toolkit for real-time Computer Vision pipelines on Linux systems."
 readme        = "README.md"
 authors       = [{ name = "Shep L" }]
@@ -193,7 +193,7 @@ reportUnusedParameter      = false
 reportUnknownParameterType = false
 
 [tool.bumpversion]
-current_version  = "0.5.2"
+current_version  = "0.6.0"
 commit           = true
 tag              = true
 pre_commit_hooks = ["uv lock && git add uv.lock"]
