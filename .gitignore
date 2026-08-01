@@ -1,0 +1,17 @@
+# Distribution
+dist/
+
+# Virtual Environments
+.venv
+.venv/
+
+# Program Data
+/data/
+docs/_build/
+__pycache__/
+
+# Personal Workspace Data
+/dev/
+.vscode/
+.claude/
+CLAUDE.md

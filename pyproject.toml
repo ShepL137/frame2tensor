@@ -1,0 +1,199 @@
+[project]
+name          = "frame2tensor"
+version       = "0.5.2"
+description   = "A simple Python toolkit for real-time Computer Vision pipelines on Linux systems."
+readme        = "README.md"
+authors       = [{ name = "Shep L" }]
+license       = "MIT"
+license-files = ["LICENSE"]
+keywords      = ["cuda", "opengl", "interop", "screen-capture", "x11", "gpu", "tensor", "computer-vision"]
+classifiers   = [
+    "Development Status :: 4 - Beta",
+    "Environment :: GPU :: NVIDIA CUDA",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Graphics :: Capture :: Screen Capture",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Typing :: Typed",
+]
+requires-python = ">=3.11"
+dependencies    = [
+    "cuda-python>=12.0.0, <13.0.0",  # pinned for development on 525–550 series drivers
+    "glfw>=2.10.0",
+    "moderngl>=5.12.0",
+    "moderngl-window>=3.1.1",
+    "pyopengl>=3.1.10",
+    "python-xlib>=0.33",
+]
+
+[build-system]
+requires      = ["uv_build>=0.9.14,<0.10.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.38.4",
+    "bump-my-version>=1.2.7",
+    "orjson>=3.11.9",
+    "pytest>=9.0.2",
+    "ruff>=0.15.5",
+    "torch>=2.9.1",
+]
+docs = [
+    "furo>=2025.12.19",
+    "myst-parser>=5.1.0",
+    "sphinx>=9.0.4",
+]
+
+# Linting & Formatting
+
+[tool.ruff]
+line-length    = 120
+src            = ["src", "tests"]
+extend-exclude = ["docs"]           # Sphinx config and build output are not project code
+
+[tool.ruff.lint]
+select = [
+    # --- Core Standards ---
+    "E",    # Errors
+    "F",    # Standard static analysis
+    "W",    # Warnings
+
+    # --- Bugs & Security ---
+    "A",    # Ban shadowing built-ins
+    "B",    # Likely bugs & design problems
+    "BLE",  # Ban generic `Exception`
+    "DTZ",  # Ban naive datetimes                       (For benchmark outputs)
+    "S",    # Security
+    "TRY",  # Better exception handling
+
+    # --- Style & Conventions ---
+    "D",    # Docstrings
+    "I",    # Sort imports
+    "N",    # Naming conventions
+    "PTH",  # Pathlib over os.path
+    "TID",  # Ban relative imports
+    "UP",   # Upgrades old syntax, e.g., `Optional -> |`
+
+    # --- Complexity & Performance ---
+    "C4",   # Optimizes list/dict comprehensions
+    "C90",  # Cyclomatic complexity checker
+    "PERF", # Performance anti-patterns
+    "PL",   # Code quality & refactoring
+    "RET",  # Require consistent return statements
+    "SIM",  # Simplifications
+
+    # --- Hygiene ---
+    "ARG",  # Ban unused function arguments
+    "ERA",  # Ban commented-out code
+    "PGH",  # Ban generic ignores                       (Prefer explicit rule citations)
+    "RUF",  # Ruff-specific rules
+    "SLF",  # Ban private member access
+    "T20",  # Ban print statements
+
+    # --- Tests ---
+    "PT",   # Pytest anti-patterns
+]
+ignore = [
+    "C408",     # Dicts must be literal                 (Genuinely a less legible syntax)
+    "D203",     # Conflicts with D211                   (One-blank-line-before-class)
+    "D213",     # Conflicts with D212                   (Multi-line summary at first line)
+    "D105",     # Missing docstring in magic method     (__enter__, __exit__, etc.)
+    "TRY003",   # Long messages outside exception class (Often too strict)
+    "PLC0415",  # Import should be at top of module     (For lazy imports)
+    "PLR2004",  # Magic value in comparison             (Not many places for constants in src/)
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"   # Also suppresses D413, D204, and D401
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "ARG",		# Unused method arguments               (Fixtures inject by name)
+    "D",		# Missing docstrings
+    "S101",		# Assert used
+    "SLF001",	# Private member access
+]
+"examples/*" = [
+    "D102", "D103", "D107", # Missing docstrings        (Illustrative code)
+    "T201",         # Print statements
+    "N812",         # Non-lowercase module alias        (e.g., torch.nn.functional as F)
+]
+"scripts/*" = [
+    "D103",         # Missing docstrings
+    "T201",         # Print statements
+    "PLR0915",      # Too many statements
+]
+"benchmarks/*" = [
+    "D103",         # Missing docstrings
+    "T201",         # Print statements
+    "BLE001",       # Blind except                      (Optional-dependency probes)
+    "TRY300",       # Consider `else` after `try`       (not worth it in a harness)
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.format]
+docstring-code-format = true
+quote-style           = "double"
+indent-style          = "space"
+
+[tool.pytest.ini_options]
+addopts        = "-ra -m 'not windowed and not x11'"
+testpaths      = ["tests"]
+strict         = true    # strict_config, strict_markers, strict_xfail, strict_parametrization_ids
+markers        = [
+    "windowed: requires a display server (GLFW window)",
+    "x11: requires a live X11 display and compositor",
+]
+filterwarnings = [
+    # moderngl_window.scene.camera imports PyGLM's legacy top-level `glm`. Upstream's to fix; nothing we call.
+    'ignore:Importing PyGLM via "import glm":PendingDeprecationWarning',
+]
+
+[tool.basedpyright]
+include                    = ["src", "scripts", "benchmarks", "tests"]
+typeCheckingMode           = "recommended"
+pythonVersion              = "3.11"  # Enforce the floor from requires-python instead of the interpreter
+reportAny                  = false
+reportExplicitAny          = false
+reportImplicitOverride     = false   # True requires @typing.override (a 3.12+ decorator) on overrides
+reportMissingTypeStubs     = false
+reportUnknownArgumentType  = false
+reportUnknownMemberType    = false
+reportUnknownVariableType  = false
+
+[[tool.basedpyright.executionEnvironments]]
+root                              = "scripts"
+reportImplicitStringConcatenation = false
+reportUnusedCallResult            = false
+
+[[tool.basedpyright.executionEnvironments]]
+root                              = "benchmarks"
+reportImplicitStringConcatenation = false
+reportUnusedCallResult            = false
+
+[[tool.basedpyright.executionEnvironments]]
+# Fixtures inject by name and go unannotated; assertions discard returns; internals are the subject.
+root                       = "tests"
+reportMissingParameterType = false
+reportPrivateUsage         = false
+reportUnusedCallResult     = false
+reportUnusedParameter      = false
+reportUnknownParameterType = false
+
+[tool.bumpversion]
+current_version  = "0.5.2"
+commit           = true
+tag              = true
+pre_commit_hooks = ["uv lock && git add uv.lock"]
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search   = 'version = "{current_version}"'
+replace  = 'version = "{new_version}"'
