@@ -57,7 +57,7 @@ with WindowedRenderer(width, height) as win:
 Call `capture()` after `draw()` and before `swap()`.
 
 ## Compositing a CUDA buffer into a window
-Blend a captured window with your own overlay content drawn on top. See [`motion_detection`](examples/motion_detection/).
+Blend a captured window with your own overlay content drawn on top. See [`motion_detection`](https://github.com/ShepL137/frame2tensor/tree/master/examples/motion_detection).
 
 ```python
 from frame2tensor.capture import X11Window, get_active_window
@@ -78,7 +78,7 @@ with X11Window(get_active_window()) as src, WindowedRenderer(src.width, src.heig
 `draw()` composites it into the FBO and calls `on_draw(ctx, fbo)` for any overlay layer before the blit.
 
 ## Writing tensors to GL (CUDA → texture)
-E.g., neural visualizations. See [`rnn_activity`](examples/rnn_activity/)
+E.g., neural visualizations. See [`rnn_activity`](https://github.com/ShepL137/frame2tensor/tree/master/examples/rnn_activity)
 
 ```python
 import moderngl as mgl

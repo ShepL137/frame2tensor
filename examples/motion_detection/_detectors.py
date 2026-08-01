@@ -40,9 +40,8 @@ class EMAMotionDetector(nn.Module):
 class AdaptiveMotionDetector(nn.Module):
     """Motion as a per-pixel z-score against running mean and variance.
 
-    Each pixel is compared to its own noise statistics,
-    which places the visibility threshold exactly at that pixel's noise floor:
-    static regions shimmer while true motion stands out with more intensity.
+    Each pixel is compared to its own running noise statistics,
+    placing the visibility threshold at that pixel's noise floor.
     """
 
     def __init__(self, h, w, alpha=ADAPTIVE_ALPHA, sensitivity=ADAPTIVE_SENSITIVITY):

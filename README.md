@@ -63,15 +63,15 @@ with X11Window(pick_window()) as win:
 - `get_active_window()` returns the currently focused window
 - or pass an XID directly.
 
-See [docs/quickstart.md](docs/quickstart.md) for more.
+See [docs/quickstart.md](https://github.com/ShepL137/frame2tensor/blob/master/docs/quickstart.md) for more.
 
 ## Examples
 
-See [`examples/`](examples/) for complete, self-contained demos:
+See [`examples/`](https://github.com/ShepL137/frame2tensor/tree/master/examples) for complete, self-contained demos:
 
-- [`motion_detection`](examples/motion_detection/): live frame-differencing motion filters over a captured window (including windowed and click-through AR overlay versions).
-- [`retinal_opponency`](examples/retinal_opponency/): a center-surround color-opponency filter over a captured window, with four views switchable at runtime.
-- [`rnn_activity`](examples/rnn_activity/): an RNN's per-layer activations rendered live as heatmap tiles.
+- [`motion_detection`](https://github.com/ShepL137/frame2tensor/tree/master/examples/motion_detection): live frame-differencing motion filters over a captured window (including windowed and click-through AR overlay versions).
+- [`retinal_opponency`](https://github.com/ShepL137/frame2tensor/tree/master/examples/retinal_opponency): a center-surround color-opponency filter over a captured window, with four views switchable at runtime.
+- [`rnn_activity`](https://github.com/ShepL137/frame2tensor/tree/master/examples/rnn_activity): an RNN's per-layer activations rendered live as heatmap tiles.
 
 ## Motivation
 
@@ -89,7 +89,7 @@ The roadmap gist:
 
 - better type support (rendering & direct f32 capture)
 - better API
-- JAX support (via `dlpack`)
+- JAX support
 - desktop capture
 - performance optimizations (especially for recording)
 - various fixes

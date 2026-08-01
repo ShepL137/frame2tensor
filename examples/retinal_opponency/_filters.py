@@ -43,7 +43,7 @@ class RetinalOpponency(nn.Module):
     The module is size-agnostic.
 
     ``forward`` takes an ``(H, W, 4)`` frame in 0..1 and returns the packed ``(H, W, 3)`` opponent response
-        ordered (luminance, blue-yellow, red-green).
+    ordered (luminance, blue-yellow, red-green).
     Feed that to :func:`render_mode` to get a displayable RGBA frame.
     """
 
