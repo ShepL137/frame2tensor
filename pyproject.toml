@@ -30,6 +30,11 @@ dependencies    = [
     "python-xlib>=0.33",
 ]
 
+[project.urls]
+Homepage      = "https://github.com/ShepL137/frame2tensor"
+Documentation = "https://frame2tensor.readthedocs.io"
+Issues        = "https://github.com/ShepL137/frame2tensor/issues"
+
 [build-system]
 requires      = ["uv_build>=0.9.14,<0.10.0"]
 build-backend = "uv_build"
