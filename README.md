@@ -26,14 +26,12 @@ Check with `nvidia-smi`, then consult the [CUDA toolkit compatibility matrix](ht
 
 ## Install
 
-Install from GitHub:
-
 ```
-uv add git+https://github.com/ShepL137/frame2tensor.git
+uv add frame2tensor
 ```
 or
 ```
-pip install git+https://github.com/ShepL137/frame2tensor.git
+pip install frame2tensor
 ```
 
 ## Quick Start
@@ -63,7 +61,7 @@ with X11Window(pick_window()) as win:
 - `get_active_window()` returns the currently focused window
 - or pass an XID directly.
 
-See [docs/quickstart.md](https://github.com/ShepL137/frame2tensor/blob/master/docs/quickstart.md) for more.
+See [the quickstart guide](https://frame2tensor.readthedocs.io/en/latest/quickstart.html) for more.
 
 ## Examples
 
